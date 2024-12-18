@@ -1,0 +1,31 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  build:
+    runs-on: api-gateway-runner
+
+    steps:
+      - uses: actions/checkout@v4
+        continue-on-error: true
+      - name: Docker componse down -v
+        run: docker-compose down
+        continue-on-error: true
+      - name: Docker componse up
+        run: docker-compose up -d --force-recreate --build
+        continue-on-error: true
+
+    # - name: Remove old image
+    #   run: docker rmi my-app-spring:latest
+    #   continue-on-error: true
+
+    # - name: Build Docker image
+    #   run: docker build -t my-app-spring:latest .
+
+    # - name: Create and start new container
+    #   run: docker run -d --name my_container -p 8080:8080 my-app-spring:latest

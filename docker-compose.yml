@@ -1,0 +1,15 @@
+version: "3"
+services:
+  service-registry:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - PORT=8082 # This will be overridden by Docker Compose's dynamic port binding
+    volumes: # Mount your project files
+      - maven_cache:/root/.m2
+    ports:
+      - "8082:8080"
+    restart: always
+volumes:
+  maven_cache: # Volume for Maven cache
